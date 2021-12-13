@@ -1,12 +1,10 @@
-use crate::config::{BootstrapMode, BuildConfig, Config, ConfigOverride, Manifest};
+use super::shared::with_workspace;
+use crate::config::ConfigOverride;
 use crate::handlers::idl::{write_idl, IdlTestMetadata};
 use crate::handlers::shared::{cluster_url, OutFile};
 use anyhow::Result;
-use std::fs::{self, File};
 use std::path::PathBuf;
 use std::process::Stdio;
-
-use super::shared::with_workspace;
 
 pub fn deploy(cfg_override: &ConfigOverride, program_str: Option<String>) -> Result<()> {
     with_workspace(cfg_override, |cfg| {
