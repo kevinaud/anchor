@@ -206,3 +206,26 @@ impl<'info, T: ZeroCopy + Owner> Key for AccountLoader<'info, T> {
         *self.acc_info.key
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::convert::TryFrom;
+
+    use super::*;
+
+    #[test]
+    fn test_account_loader_error() {
+        let account_info = AccountInfo::new(
+            &Pubkey::default(),
+            false,
+            false,
+            &mut 0,
+            &mut [1],
+            &Pubkey::default(),
+            false,
+            0,
+        );
+
+        AccountLoader::try_from(&account_info);
+    }
+}
