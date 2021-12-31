@@ -152,8 +152,21 @@ pub fn generate(program: &Program) -> proc_macro2::TokenStream {
                 #[cfg(not(feature = "no-log-ix-name"))]
                 anchor_lang::prelude::msg!("Instruction: IdlWrite");
 
-                let mut idl = &mut accounts.idl;
-                idl.data.extend(idl_data);
+                let mut buffer = &mut accounts.idl;
+
+                anchor_lang::prelude::msg!("Buffer address: {}", buffer.key);
+
+                if buffer.key == IdlAccount::address(program_id) {
+                    anchor_lang::prelude::msg!("Error: attempting to write to canonical IDL account");
+                    return Err(anchor_lang::__private::ErrorCode::IdlInstructionInvalidProgram.into());
+                    // return Err();
+                }
+
+                buffer.data.extend(idl_data);
+                // buffer.data.extend(vec![1u8, 2u8]);
+
+                // let mut idl = &mut accounts.idl;
+                // idl.data.extend(idl_data);
                 Ok(())
             }
 

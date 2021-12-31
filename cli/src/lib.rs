@@ -1327,6 +1327,7 @@ fn idl_write_buffer(
         let idl: Idl = serde_json::from_reader(&*bytes)?;
 
         let idl_buffer = create_idl_buffer(cfg, &keypair, &program_id, &idl)?;
+        // let idl_buffer = IdlAccount::address(&program_id);
         idl_write(cfg, &program_id, &idl, idl_buffer)?;
 
         println!("Idl buffer created: {:?}", idl_buffer);
